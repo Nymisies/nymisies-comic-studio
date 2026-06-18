@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Millie – Hexerei für Anfänger · Band 1</title>
+
+<!--
+╔══════════════════════════════════════════════════════════════╗
+║  PREIS ÄNDERN: Suche nach PREIS_HIER und ändere "2.99"      ║
+║  PayPal Client ID ist bereits eingetragen ✓                  ║
+║  Für echte Zahlungen: Datei auf Webserver hochladen         ║
+╚══════════════════════════════════════════════════════════════╝
+-->
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #FFFBF0;
+  --bg-warm:      #FFF5DC;
+  --amber-pale:   #FFE8B0;
+  --amber-light:  #F0B84C;
+  --amber-mid:    #D89020;
+  --amber-deep:   #8A5810;
+  --green-pale:   #D8EFCC;
+  --green-light:  #7AB860;
+  --green-mid:    #4A8030;
+  --green-deep:   #244818;
+  --magic:        #7848C0;
+  --magic-light:  #A878F0;
+  --terra:        #C84828;
+  --brown:        #2A1808;
+  --brown-mid:    #6A4020;
+  --cream:        #FFF8EC;
+  --shadow:       rgba(138, 88, 16, 0.18);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: 'Nunito', 'Segoe UI', sans-serif;
+  color: var(--brown);
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ── HEADER ─────────────────────────────────────────────── */
+header {
+  background: linear-gradient(120deg, #162E0C 0%, #244818 45%, #3A2A08 80%, #1A1A0E 100%);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.35);
+}
+
+.header-brand {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  color: var(--amber-light);
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.header-brand small {
+  display: block;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-back {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.78rem;
+  font-family: 'Nunito', sans-serif;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 5px 12px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.header-back:hover { color: var(--amber-light); border-color: var(--amber-light); }
+
+.header-price {
+  background: rgba(216,144,32,0.2);
+  border: 1px solid rgba(216,144,32,0.55);
+  color: var(--amber-light);
+  padding: 6px 16px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  border-radius: 20px;
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.hero-wrap {
+  background: linear-gradient(150deg, #162E0C 0%, #2A4A18 30%, #3A2808 65%, #1A1208 100%);
+  padding: 60px 40px 68px;
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 4px;
+  color: var(--amber-light);
+  margin-bottom: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 4.2rem;
+  color: #FFFFFF;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 3px 24px rgba(0,0,0,0.4);
+  letter-spacing: 1px;
+}
+
+.hero-subtitle {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.3rem;
+  color: var(--amber-light);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.hero-band {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+  font-style: italic;
+}
+
+.hero-desc {
+  color: rgba(255,255,255,0.8);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 28px;
+  max-width: 500px;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.chip {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.75);
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.hero-cover {
+  position: relative;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.55));
+}
+
+.hero-cover img {
+  width: 100%;
+  border-radius: 6px;
+  outline: 2px solid rgba(216,144,32,0.3);
+  outline-offset: 5px;
+}
+
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  animation: twinkle 2.8s ease-in-out infinite;
+}
+.sparkle:nth-child(1) { top: -14px; right: -10px; font-size: 1.8rem; animation-delay: 0s; }
+.sparkle:nth-child(2) { top: 25%; left: -18px; font-size: 1.1rem; animation-delay: 1s; }
+.sparkle:nth-child(3) { bottom: 12%; right: -16px; font-size: 1.4rem; animation-delay: 2s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.75) rotate(-8deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(8deg); }
+}
+
+/* ── BUTTON ──────────────────────────────────────────────── */
+.btn-amber {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #D89020 0%, #F0B040 100%);
+  color: #1A0E04;
+  border: none;
+  padding: 14px 28px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 30px;
+  box-shadow: 0 4px 18px rgba(216,144,32,0.45);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-amber:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(216,144,32,0.55);
+}
+
+/* ── ABOUT BAND ──────────────────────────────────────────── */
+.about-band {
+  background: linear-gradient(100deg, var(--green-pale) 0%, var(--amber-pale) 55%, #FFF0CC 100%);
+  padding: 40px;
+}
+
+.about-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 44px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.about-text { flex: 1; min-width: 260px; }
+
+.about-text h2 {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.6rem;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--brown);
+  opacity: 0.88;
+}
+
+.about-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  background: rgba(255,255,255,0.75);
+  border: 2px solid var(--amber-pale);
+  padding: 16px 20px;
+  text-align: center;
+  min-width: 88px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+.stat-num {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 2.2rem;
+  color: var(--amber-mid);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--brown-mid);
+  margin-top: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stat-green .stat-num { color: var(--green-mid); }
+.stat-green { border-color: var(--green-pale); }
+
+/* ── SECTION ─────────────────────────────────────────────── */
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--amber-mid), var(--green-mid), transparent);
+  opacity: 0.35;
+}
+
+.section-bg-cream { background: var(--cream); }
+.section-bg-plain { background: var(--bg); }
+
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.section-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  color: var(--amber-mid);
+  margin-bottom: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 2.1rem;
+  color: var(--brown);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.section-sub {
+  font-style: italic;
+  color: var(--brown-mid);
+  font-size: 0.95rem;
+}
+
+.section-rule {
+  width: 68px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber-mid), var(--green-mid));
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* ── READER ──────────────────────────────────────────────── */
+.reader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-wrap { width: 100%; max-width: 640px; }
+
+.page-label {
+  background: linear-gradient(135deg, var(--amber-deep), var(--green-deep));
+  color: rgba(255,255,255,0.9);
+  padding: 7px 18px;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Nunito', sans-serif;
+}
+
+.page-wrap img {
+  width: 100%;
+  display: block;
+  box-shadow: 0 8px 30px rgba(42, 24, 8, 0.12);
+}
+
+/* ── PURCHASE ────────────────────────────────────────────── */
+.purchase-wrap {
+  background: linear-gradient(150deg, #162E0C 0%, #2A4818 30%, #3A2808 65%, #1A1208 100%);
+}
+
+.purchase-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.purchase-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: var(--amber-light);
+  margin-bottom: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.purchase-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 2.3rem;
+  color: white;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.purchase-sub {
+  font-style: italic;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 38px;
+  font-size: 0.98rem;
+}
+
+.price-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  background: rgba(216,144,32,0.12);
+  border: 2px solid rgba(216,144,32,0.5);
+  padding: 16px 32px;
+  margin-bottom: 32px;
+  border-radius: 12px;
+}
+
+.price-eur { font-family: 'Fredoka One', sans-serif; font-size: 1.6rem; color: var(--amber-light); }
+.price-val { font-family: 'Fredoka One', sans-serif; font-size: 4rem; color: white; line-height: 1; }
+.price-cent { font-family: 'Fredoka One', sans-serif; font-size: 2rem; color: var(--amber-light); }
+
+.purchase-feats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.feat {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feat::before { content: '⭐'; font-size: 0.7rem; }
+
+#paypal-btn-wrap {
+  max-width: 420px;
+  margin: 0 auto 14px;
+}
+
+.payment-note {
+  color: rgba(255,255,255,0.35);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.paypal-fallback {
+  display: none;
+  background: rgba(255,220,100,0.08);
+  border: 1px solid rgba(255,220,100,0.3);
+  padding: 18px 24px;
+  color: rgba(255,220,120,0.85);
+  font-size: 0.86rem;
+  line-height: 1.7;
+  max-width: 460px;
+  margin: 0 auto 14px;
+  text-align: center;
+  border-radius: 8px;
+}
+.paypal-fallback a { color: var(--amber-light); text-decoration: underline; }
+
+.success-msg {
+  display: none;
+  background: linear-gradient(135deg, rgba(122,184,96,0.18), rgba(240,184,76,0.15));
+  border: 2px solid rgba(122,184,96,0.5);
+  padding: 24px 36px;
+  max-width: 500px;
+  margin: 0 auto 32px;
+  border-radius: 12px;
+}
+
+.success-msg h3 {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.5rem;
+  color: var(--green-light);
+  margin-bottom: 6px;
+}
+
+.success-msg p {
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+}
+
+
+
+/* ── LOCKED GRID ─────────────────────────────────────────── */
+.locked-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.thumb-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 3px 12px var(--shadow);
+}
+
+.thumb-wrap img {
+  width: 100%;
+  display: block;
+  filter: blur(9px) brightness(0.55) saturate(0.5);
+  transform: scale(1.08);
+  transition: filter 0.5s, transform 0.5s;
+}
+
+.lock-over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(38, 22, 6, 0.35);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.lock-over .lock-icon { font-size: 1.6rem; line-height: 1; margin-bottom: 3px; }
+.lock-over .lock-lbl {
+  font-size: 0.58rem;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.65);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.unlocked .thumb-wrap img { filter: none; transform: scale(1); }
+.unlocked .lock-over { opacity: 0; }
+
+/* ── FULL READER ─────────────────────────────────────────── */
+#full-reader { display: none; }
+#full-reader.visible { display: block; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: linear-gradient(120deg, #162E0C, #1A1208);
+  padding: 44px 40px;
+  text-align: center;
+  color: rgba(255,255,255,0.45);
+}
+
+.footer-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  color: var(--amber-light);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+
+.footer-links a {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--amber-light); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 36px; }
+  .hero-cover { max-width: 340px; margin: 0 auto; order: -1; }
+  .hero-title { font-size: 3.2rem; }
+}
+
+@media (max-width: 580px) {
+  header { padding: 12px 16px; }
+  .hero-wrap { padding: 36px 16px 50px; }
+  .hero-title { font-size: 2.6rem; }
+  .section { padding: 44px 16px; }
+  .about-band { padding: 32px 16px; }
+  .purchase-inner { padding: 44px 16px; }
+  footer { padding: 32px 16px; }
+  .header-back { display: none; }
+}
+</style>
+</head>
+<body>
+
+<script
+  src="https://www.paypal.com/sdk/js?client-id=AQY4Yxtu3WR6LbP6vXW47DSgPUog_i4MJZK5vnn6E2cvG0ewdvWN_XthEqvUi_6MEHIcKpyUHxZr3Avv&currency=EUR&intent=capture"
+  onerror="showPaypalFallback()">
+</script>
+
+<!-- ── HEADER ──────────────────────────────────────────── -->
+<header>
+  <div class="header-brand">
+    🧹 Millie
+    <small>HEXEREI FÜR ANFÄNGER · BAND 1</small>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="header-back">← Alle Comics</a>
+    <div class="header-price">Comic · € 4,99</div>
+  </div>
+</header>
+
+<!-- ── HERO ────────────────────────────────────────────── -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">✨ Kinderbuch · KI-illustriert ✨</div>
+      <h1 class="hero-title">Millie</h1>
+      <div class="hero-subtitle">Hexerei für Anfänger</div>
+      <div class="hero-band">Band 1 · Von Feline und Claas Altenähr</div>
+      <p class="hero-desc">
+        Millie lebt mit ihren Eltern auf einer friedlichen Pegasusfarm. Eines Tages
+        entdeckt sie ein großes Geheimnis — sie kann hexen! Mit ihrer neuen Gabe
+        erlebt sie spannende Abenteuer, hilft Freunden und lernt dabei wichtige
+        Dinge fürs Leben: Ruhig bleiben, sich konzentrieren, klar sprechen.
+      </p>
+      <div class="hero-chips">
+        <span class="chip">53 Seiten</span>
+        <span class="chip">Kinder &amp; Familie</span>
+        <span class="chip">Fantasy</span>
+        <span class="chip">Pädagogisch</span>
+        <span class="chip">Ab 5 Jahren</span>
+      </div>
+      <a href="#vorschau" class="btn-amber">📖 Kostenlos reinlesen</a>
+    </div>
+
+    <div class="hero-cover">
+      <span class="sparkle">✨</span>
+      <span class="sparkle">⭐</span>
+      <span class="sparkle">✨</span>
+      <img src="bilder/millie/seite-00.jpg"
+           alt="Millie – Hexerei für Anfänger · Cover">
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT ────────────────────────────────────────────── -->
+<div class="about-band">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2>🐴 Eine Geschichte über Mut, Freundschaft und Magie</h2>
+      <p>
+        Fünkchen, das geflügelte Pony, Elisa, die beste Freundin, und eine Welt voller
+        kleiner Wunder — Millie zeigt, dass Magie nicht nur im Zauberbuch steckt,
+        sondern auch im Herzen. Eine wunderbare Geschichte für Kinder ab 5 Jahren
+        und alle, die jung geblieben sind.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">53</div>
+        <div class="stat-lbl">Seiten</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10</div>
+        <div class="stat-lbl">Gratis</div>
+      </div>
+      <div class="stat stat-green">
+        <div class="stat-num" style="color:var(--amber-mid)">2,99</div>
+        <div class="stat-lbl">Euro</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── KOSTENLOSE VORSCHAU ──────────────────────────────── -->
+<div class="section-bg-cream" id="vorschau">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">Kostenlose Leseprobe</div>
+      <h2 class="section-title">Die ersten 10 Seiten – gratis</h2>
+      <p class="section-sub">Cover · Innentitel · Widmung · Kapitel 1 und 2 ansehen</p>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="reader" id="preview-reader">
+      <!-- Befüllt per JavaScript -->
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── KAUFEN ───────────────────────────────────────────── -->
+<div class="purchase-wrap" id="kauf">
+  <div class="purchase-inner">
+
+    <div class="success-msg" id="success-msg">
+      <h3>🌟 Vielen Dank!</h3>
+      <p id="success-text">Deine Zahlung war erfolgreich. Viel Spaß mit Millie!</p>
+    </div>
+
+    <div id="payment-area">
+      <div class="purchase-eyebrow">✨ Vollständiger Comic ✨</div>
+      <h2 class="purchase-title">43 weitere Seiten warten!</h2>
+      <p class="purchase-sub">Begleite Millie auf ihrer ganzen magischen Reise — alle Kapitel in voller Länge</p>
+
+      <div class="price-box">
+        <span class="price-eur">€</span>
+        <span class="price-val">4</span>
+        <span class="price-cent">,99</span>
+      </div>
+
+      <div class="purchase-feats">
+        <span class="feat">Alle 53 Seiten</span>
+        <span class="feat">10 Seiten gratis gesehen</span>
+        <span class="feat">Sofortiger Zugang</span>
+        <span class="feat">Im Browser lesen</span>
+        <span class="feat">Einmalige Zahlung</span>
+      </div>
+
+      <div id="paypal-btn-wrap"></div>
+
+      <div class="paypal-fallback" id="paypal-fallback">
+        ⚠ PayPal konnte nicht geladen werden.<br><br>
+        Bitte zahle direkt an:<br>
+        <strong style="color:var(--amber-light)">Claas.altenaehr@outlook.de</strong><br>
+        Betrag: <strong style="color:var(--amber-light)">€ 4,99</strong> · Betreff: <em>Millie Band 1</em><br><br>
+        Nach deiner Zahlung erhältst du den Zugang per E-Mail.
+      </div>
+
+      <p class="payment-note">Sichere Zahlung über PayPal · Keine Registrierung nötig</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── GESPERRTE SEITEN ─────────────────────────────────── -->
+<div class="section-bg-plain" id="locked-section">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">Die vollständige Geschichte</div>
+      <h2 class="section-title">Seiten 11–53</h2>
+      <p class="section-sub" id="locked-sub">Nach dem Kauf sofort freigeschaltet ✨</p>
+      <div class="section-rule"></div>
+    </div>
+    <div class="locked-grid" id="locked-grid"></div>
+  </div>
+</div>
+
+<!-- ── VOLLSTÄNDIGER READER ─────────────────────────────── -->
+<div id="full-reader">
+  <div class="section-bg-cream">
+    <div class="section">
+      <div class="section-head">
+        <div class="section-eyebrow">✨ Freigeschaltet ✨</div>
+        <h2 class="section-title">Millie – Alle 53 Seiten</h2>
+        <p class="section-sub">Hexerei für Anfänger · Band 1</p>
+        <div class="section-rule"></div>
+      </div>
+      <div class="reader" id="full-reader-pages"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ───────────────────────────────────────────── -->
+<footer>
+  <div class="footer-title">🧹 Millie – Hexerei für Anfänger</div>
+  <p style="font-style:italic;font-size:0.88rem;margin-bottom:12px">Band 1 · Von Feline und Claas Altenähr</p>
+  <div class="footer-links">
+    <a href="#vorschau">Gratis lesen</a>
+    <a href="#kauf">Kaufen</a>
+    <a href="index.html">Alle Comics</a>
+    <a href="mailto:claas.altenaehr@freenet.de">Kontakt</a>
+  </div>
+  <p style="font-size:0.74rem;margin-top:14px">
+    Mit KI illustriert · © 2026 Nymisies
+  </p>
+</footer>
+
+<script>
+// ─── Konfiguration ────────────────────────────────────────
+const FREE  = 10;     // Seiten 1-10 kostenlos (= 1/5 von 53)
+const PRICE = '4.99'; // ← Formel: floor(Seiten/10) - 0.01 | 53 Seiten = €4,99
+const LS_KEY = 'millie_band1_purchased_v1';
+const IMG_DIR = 'bilder/millie/';
+
+// Alle 53 Dateinamen (0 = Cover, 52 = letzte Seite)
+const IMAGES = Array.from({length: 53}, (_, i) => `seite-${String(i).padStart(2,'0')}.${'jpg'}`);
+
+const PAGE_LABELS = {
+  0: 'Cover',
+  1: 'Innentitel',
+  2: 'Widmung',
+  3: 'Kapitel 1 – Ein ganz besonderer Ort',
+  4: 'Seite 2',
+  5: 'Seite 3',
+};
+function pageLabel(i) {
+  return PAGE_LABELS[i] || `Seite ${i - 2}`;
+}
+
+function imgSrc(i) {
+  return IMG_DIR + IMAGES[i];
+}
+
+// ─── Vorschau rendern ─────────────────────────────────────
+function renderPreview() {
+  const el = document.getElementById('preview-reader');
+  for (let i = 0; i < FREE; i++) {
+    const div = document.createElement('div');
+    div.className = 'page-wrap';
+    div.innerHTML = `
+      <div class="page-label">${pageLabel(i)}</div>
+      <img src="${imgSrc(i)}" alt="${pageLabel(i)}" loading="lazy">`;
+    el.appendChild(div);
+  }
+}
+
+// ─── Gesperrte Thumbnails ─────────────────────────────────
+function renderLockedGrid() {
+  const grid = document.getElementById('locked-grid');
+  for (let i = FREE; i < IMAGES.length; i++) {
+    const div = document.createElement('div');
+    div.className = 'thumb-wrap';
+    div.id = `thumb-${i}`;
+    div.innerHTML = `
+      <img src="${imgSrc(i)}" alt="${pageLabel(i)}" loading="lazy">
+      <div class="lock-over">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-lbl">${pageLabel(i)}</div>
+      </div>`;
+    grid.appendChild(div);
+  }
+}
+
+// ─── Freischalten ─────────────────────────────────────────
+function unlockComic(payerName) {
+  document.getElementById('payment-area').style.display = 'none';
+  const msg = document.getElementById('success-msg');
+  if (payerName) {
+    document.getElementById('success-text').textContent =
+      `Hallo ${payerName}! Deine Zahlung war erfolgreich. Viel Spaß mit Millie!`;
+  }
+  msg.style.display = 'block';
+
+  document.getElementById('locked-section').classList.add('unlocked');
+  document.getElementById('locked-sub').textContent = '🌟 Freigeschaltet – viel Spaß beim Lesen!';
+
+  const reader = document.getElementById('full-reader');
+  const pages  = document.getElementById('full-reader-pages');
+  pages.innerHTML = '';
+  for (let i = 0; i < IMAGES.length; i++) {
+    const div = document.createElement('div');
+    div.className = 'page-wrap';
+    div.innerHTML = `
+      <div class="page-label">${pageLabel(i)}</div>
+      <img src="${imgSrc(i)}" alt="${pageLabel(i)}" loading="lazy">`;
+    pages.appendChild(div);
+  }
+  reader.classList.add('visible');
+  setTimeout(() => reader.scrollIntoView({ behavior: 'smooth' }), 400);
+}
+
+
+// ─── PayPal-Fallback ──────────────────────────────────────
+function showPaypalFallback() {
+  document.getElementById('paypal-fallback').style.display = 'block';
+}
+
+// ─── PayPal Buttons ───────────────────────────────────────
+function initPayPal() {
+  if (typeof paypal === 'undefined') return;
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'pay', height: 48 },
+    createOrder: (data, actions) => actions.order.create({
+      purchase_units: [{
+        description: 'Millie – Hexerei für Anfänger, Band 1 (53 Seiten)',
+        amount: { currency_code: 'EUR', value: PRICE }
+      }]
+    }),
+    onApprove: (data, actions) => actions.order.capture().then(details => {
+      localStorage.setItem(LS_KEY, '1');
+      localStorage.setItem('millie_order_id', details.id);
+      unlockComic(details.payer?.name?.given_name || '');
+    }),
+    onError: err => {
+      console.error(err);
+      alert('Bei der Zahlung ist ein Fehler aufgetreten. Bitte versuche es erneut.');
+    }
+  }).render('#paypal-btn-wrap');
+}
+
+// ─── Start ────────────────────────────────────────────────
+renderPreview();
+renderLockedGrid();
+
+if (localStorage.getItem(LS_KEY) === '1') {
+  unlockComic();
+  document.querySelector('#success-msg h3').textContent = '🌟 Willkommen zurück!';
+  document.getElementById('success-text').textContent =
+    'Dein Comic ist noch freigeschaltet. Viel Spaß beim Lesen!';
+}
+
+window.addEventListener('load', initPayPal);
+</script>
+
+</body>
+</html>

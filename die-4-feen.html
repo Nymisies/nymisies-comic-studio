@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Die vier Feen vom Waldsee – Das Lied der Feen</title>
+
+<!--
+╔══════════════════════════════════════════════════════════════╗
+║  PAYPAL EINRICHTEN (einmalig, ca. 5 Minuten)                ║
+╠══════════════════════════════════════════════════════════════╣
+║  1. Gehe zu: https://developer.paypal.com                   ║
+║  2. Mit deinem PayPal-Konto einloggen                       ║
+║  3. "Apps & Credentials" → "Create App"                     ║
+║  4. Oben auf "Live" umschalten (nicht Sandbox!)             ║
+║  5. "Client ID" kopieren                                    ║
+║  6. Client ID bereits eingetragen ✓                         ║
+║                                                              ║
+║  Für lokales Testen: "Demo-Kauf simulieren" nutzen          ║
+║  Für echte Zahlungen: Datei auf einem Webserver hosten      ║
+╚══════════════════════════════════════════════════════════════╝
+-->
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #F5EEFF;
+  --bg-cream:     #FDF9FF;
+  --purple-pale:  #E8D8F8;
+  --purple-light: #C8A8EC;
+  --purple-mid:   #9B68CC;
+  --purple-deep:  #5C2888;
+  --purple-text:  #3A1560;
+  --green-pale:   #D4EDD8;
+  --green-light:  #A8D4B0;
+  --green-mid:    #6BAE80;
+  --green-deep:   #2E6840;
+  --blue-pale:    #D0E4F5;
+  --blue-light:   #A0C4E0;
+  --blue-mid:     #6899C8;
+  --blue-deep:    #1E4878;
+  --gold:         #C8A030;
+  --gold-light:   #E8C860;
+  --shadow:       rgba(92, 40, 136, 0.16);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: 'Crimson Pro', Georgia, serif;
+  color: var(--purple-text);
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ── HEADER ─────────────────────────────────────────────── */
+header {
+  background: linear-gradient(120deg, #1E0838 0%, #3A1068 35%, #1A3820 65%, #102840 100%);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.35);
+}
+
+.header-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 1.5px;
+  line-height: 1.2;
+}
+
+.header-brand small {
+  display: block;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.55);
+  font-weight: 400;
+  letter-spacing: 3px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-back {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.78rem;
+  font-family: 'Cinzel', serif;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 5px 12px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.header-back:hover { color: var(--gold-light); border-color: var(--gold-light); }
+
+.header-price {
+  background: rgba(200,160,48,0.18);
+  border: 1px solid rgba(200,160,48,0.5);
+  color: var(--gold-light);
+  padding: 7px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.hero-wrap {
+  background: linear-gradient(150deg, #1E0838 0%, #3A1068 25%, #1A3820 60%, #0E2438 100%);
+  padding: 64px 40px 72px;
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 64px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.08;
+  margin-bottom: 8px;
+  text-shadow: 0 3px 24px rgba(0,0,0,0.4);
+}
+
+.hero-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--gold-light);
+  letter-spacing: 2.5px;
+  font-style: italic;
+  margin-bottom: 26px;
+}
+
+.hero-desc {
+  color: rgba(255,255,255,0.78);
+  font-size: 1.08rem;
+  line-height: 1.75;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 38px;
+}
+
+.chip {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.75);
+  padding: 5px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 1.2px;
+}
+
+.hero-cover {
+  position: relative;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+}
+
+.hero-cover img {
+  width: 100%;
+  border-radius: 3px;
+  outline: 2px solid rgba(200,160,48,0.35);
+  outline-offset: 4px;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 1.6rem;
+  pointer-events: none;
+  animation: sparkle 3s ease-in-out infinite;
+}
+.sparkle:nth-child(1) { top: -14px; right: -12px; animation-delay: 0s; }
+.sparkle:nth-child(2) { top: 38%; left: -18px; font-size: 1.1rem; animation-delay: 1s; }
+.sparkle:nth-child(3) { bottom: 18%; right: -15px; font-size: 1.3rem; animation-delay: 2s; }
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8) rotate(-5deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(5deg); }
+}
+
+/* ── BUTTON ──────────────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #C8A030 0%, #E8C040 100%);
+  color: #2A0E50;
+  border: none;
+  padding: 14px 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(200,160,48,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(200,160,48,0.5);
+}
+
+/* ── ABOUT BAND ──────────────────────────────────────────── */
+.about-band {
+  background: linear-gradient(100deg, var(--purple-pale) 0%, var(--blue-pale) 55%, var(--green-pale) 100%);
+  padding: 44px 40px;
+}
+
+.about-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.about-text { flex: 1; min-width: 260px; }
+
+.about-text h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--purple-deep);
+}
+
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.78;
+  color: var(--purple-text);
+  opacity: 0.88;
+}
+
+.about-stats {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--purple-light);
+  padding: 18px 22px;
+  text-align: center;
+  min-width: 90px;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+.stat-num {
+  font-family: 'Cinzel', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--purple-deep);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--purple-mid);
+  margin-top: 4px;
+  font-family: 'Cinzel', serif;
+}
+
+.stat-gold .stat-num { color: var(--gold); }
+.stat-gold { border-color: rgba(200,160,48,0.4); background: rgba(255,248,220,0.7); }
+
+/* ── DIVIDER ─────────────────────────────────────────────── */
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--purple-light) 20%, var(--green-light) 50%, var(--blue-light) 80%, transparent 100%);
+  opacity: 0.5;
+}
+
+/* ── SECTION WRAPPER ─────────────────────────────────────── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 40px;
+}
+
+.section-bg-cream { background: var(--bg-cream); }
+.section-bg-plain { background: var(--bg); }
+
+.section-head {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.section-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 5px;
+  color: var(--purple-mid);
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--purple-text);
+  margin-bottom: 10px;
+}
+
+.section-sub {
+  font-style: italic;
+  color: var(--purple-mid);
+  font-size: 0.98rem;
+}
+
+.section-rule {
+  width: 72px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple-mid), var(--green-mid));
+  margin: 14px auto 0;
+  border-radius: 2px;
+}
+
+/* ── COMIC READER ────────────────────────────────────────── */
+.reader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.page-wrap {
+  width: 100%;
+  max-width: 680px;
+}
+
+.page-label {
+  background: linear-gradient(135deg, var(--purple-deep), var(--blue-deep));
+  color: rgba(255,255,255,0.9);
+  padding: 7px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.page-wrap img {
+  width: 100%;
+  display: block;
+  box-shadow: 0 10px 35px rgba(61,21,96,0.14);
+}
+
+/* ── PURCHASE SECTION ────────────────────────────────────── */
+.purchase-wrap {
+  background: linear-gradient(150deg, #1E0838 0%, #3A1068 30%, #133020 60%, #102438 100%);
+}
+
+.purchase-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 40px;
+  text-align: center;
+}
+
+.purchase-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.purchase-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+
+.purchase-sub {
+  font-style: italic;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+  font-size: 0.98rem;
+}
+
+.price-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  background: rgba(200,160,48,0.12);
+  border: 2px solid rgba(200,160,48,0.5);
+  padding: 18px 36px;
+  margin-bottom: 36px;
+}
+
+.price-eur { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold-light); }
+.price-val { font-family: 'Cinzel', serif; font-size: 4rem; font-weight: 700; color: #FFFFFF; line-height: 1; }
+.price-cent { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--gold-light); }
+
+.purchase-feats {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+
+.feat {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.feat::before { content: '✦'; color: var(--gold); font-size: 0.65rem; }
+
+#paypal-btn-wrap {
+  max-width: 420px;
+  margin: 0 auto 16px;
+}
+
+.payment-note {
+  color: rgba(255,255,255,0.35);
+  font-size: 0.76rem;
+  font-style: italic;
+  margin-top: 12px;
+}
+
+/* PayPal error fallback */
+.paypal-fallback {
+  display: none;
+  background: rgba(255,220,100,0.08);
+  border: 1px solid rgba(255,220,100,0.3);
+  padding: 20px 28px;
+  color: rgba(255,220,120,0.85);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  max-width: 460px;
+  margin: 0 auto 16px;
+  text-align: center;
+}
+.paypal-fallback a { color: var(--gold-light); text-decoration: underline; }
+
+/* Success message */
+.success-msg {
+  display: none;
+  background: linear-gradient(135deg, rgba(107,174,128,0.15), rgba(104,153,200,0.15));
+  border: 2px solid rgba(107,174,128,0.5);
+  padding: 28px 40px;
+  max-width: 520px;
+  margin: 0 auto 36px;
+}
+
+.success-msg h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: var(--green-light);
+  margin-bottom: 8px;
+}
+
+.success-msg p {
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* Demo bar */
+
+
+/* ── LOCKED GRID ─────────────────────────────────────────── */
+.locked-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.thumb-wrap {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px var(--shadow);
+}
+
+.thumb-wrap img {
+  width: 100%;
+  display: block;
+  filter: blur(9px) brightness(0.55) saturate(0.6);
+  transform: scale(1.08);
+  transition: filter 0.5s, transform 0.5s, brightness 0.5s;
+}
+
+.thumb-wrap .lock-over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(40,10,70,0.38);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.lock-over .lock-icon { font-size: 1.7rem; line-height: 1; margin-bottom: 4px; }
+.lock-over .lock-lbl {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.65);
+}
+
+/* Unlocked state */
+.unlocked .thumb-wrap img {
+  filter: none;
+  transform: scale(1);
+}
+.unlocked .lock-over { opacity: 0; pointer-events: none; }
+
+/* ── FULL READER (after unlock) ──────────────────────────── */
+#full-reader { display: none; }
+#full-reader.visible { display: block; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: linear-gradient(120deg, #1E0838, #102840);
+  padding: 48px 40px;
+  text-align: center;
+  color: rgba(255,255,255,0.45);
+}
+
+.footer-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.footer-sub {
+  font-style: italic;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.4);
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.82rem;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--gold-light); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; }
+  .hero-cover { max-width: 380px; margin: 0 auto; order: -1; }
+  .hero-title { font-size: 2.6rem; }
+}
+
+@media (max-width: 580px) {
+  header { padding: 12px 18px; }
+  .hero-wrap { padding: 40px 18px 52px; }
+  .hero-title { font-size: 2rem; }
+  .section { padding: 48px 18px; }
+  .about-band { padding: 36px 18px; }
+  .purchase-inner { padding: 48px 18px; }
+  .price-val { font-size: 3rem; }
+  footer { padding: 36px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PayPal JS SDK — ersetze DEIN_PAYPAL_CLIENT_ID mit deiner echten Client ID -->
+<script
+  src="https://www.paypal.com/sdk/js?client-id=AQY4Yxtu3WR6LbP6vXW47DSgPUog_i4MJZK5vnn6E2cvG0ewdvWN_XthEqvUi_6MEHIcKpyUHxZr3Avv&currency=EUR&intent=capture"
+  onerror="showPaypalFallback()">
+</script>
+
+<!-- ── HEADER ──────────────────────────────────────────── -->
+<header>
+  <div class="header-brand">
+    Die vier Feen vom Waldsee
+    <small>✦ DAS LIED DER FEEN ✦</small>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="header-back">← Alle Comics</a>
+    <div class="header-price">Comic · € 1,99</div>
+  </div>
+</header>
+
+<!-- ── HERO ────────────────────────────────────────────── -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">✦ KI-GENERIERTER FANTASY-COMIC ✦</div>
+      <h1 class="hero-title">Die vier Feen<br>vom Waldsee</h1>
+      <div class="hero-subtitle">Das Lied der Feen</div>
+      <p class="hero-desc">
+        Vier Feen entdecken am frühen Morgen, dass ihr geliebter Waldsee sein Lied
+        verloren hat. Eine magische Reise beginnt – durch verborgene Schilfgänge,
+        leuchtende Botschaften und das Herz der Natur selbst.
+      </p>
+      <div class="hero-chips">
+        <span class="chip">21 Seiten</span>
+        <span class="chip">Fantasy · Märchen</span>
+        <span class="chip">Deutsch</span>
+        <span class="chip">Für alle Altersgruppen</span>
+      </div>
+      <a href="#vorschau" class="btn-gold">📖 Kostenlos reinlesen</a>
+    </div>
+
+    <div class="hero-cover">
+      <span class="sparkle">✨</span>
+      <span class="sparkle">✨</span>
+      <span class="sparkle">✨</span>
+      <img src="bilder/die-4-feen/seite-01.jpg"
+           alt="Die vier Feen vom Waldsee – Titelbild">
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT BAND ───────────────────────────────────────── -->
+<div class="about-band">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2>Ein magisches Abenteuer wartet</h2>
+      <p>
+        Lena, Mia, Zara und Nia – vier Feen, die am Waldsee zu Hause sind. Als der See
+        plötzlich verstummt, machen sie sich gemeinsam auf die Suche. Mit
+        atemberaubenden KI-generierten Bildern und einer herzerwärmenden Geschichte
+        über Freundschaft, Natur und den Mut, ins Unbekannte aufzubrechen.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">21</div>
+        <div class="stat-lbl">SEITEN</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-lbl">GRATIS</div>
+      </div>
+      <div class="stat stat-gold">
+        <div class="stat-num">1,99</div>
+        <div class="stat-lbl">EURO</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── KOSTENLOSE VORSCHAU ──────────────────────────────── -->
+<div class="section-bg-cream" id="vorschau">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">KOSTENLOSE LESEPROBE</div>
+      <h2 class="section-title">Die ersten 4 Seiten – gratis</h2>
+      <p class="section-sub">Cover + Seiten 1 bis 3 · Kein Konto nötig</p>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="reader">
+      <div class="page-wrap">
+        <div class="page-label">TITELBILD</div>
+        <img src="bilder/die-4-feen/seite-01.jpg"
+             alt="Die vier Feen vom Waldsee – Titelbild" loading="lazy">
+      </div>
+      <div class="page-wrap">
+        <div class="page-label">SEITE 1 – Der Tropfen auf dem Seerosenblatt</div>
+        <img src="bilder/die-4-feen/seite-02.jpg"
+             alt="Seite 1" loading="lazy">
+      </div>
+      <div class="page-wrap">
+        <div class="page-label">SEITE 2 – Der stille See</div>
+        <img src="bilder/die-4-feen/seite-03.jpg"
+             alt="Seite 2" loading="lazy">
+      </div>
+      <div class="page-wrap">
+        <div class="page-label">SEITE 3 – Der geheime Schilfgang</div>
+        <img src="bilder/die-4-feen/seite-04.jpg"
+             alt="Seite 3" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── KAUFEN ───────────────────────────────────────────── -->
+<div class="purchase-wrap" id="kauf">
+  <div class="purchase-inner">
+
+    <!-- Success (sichtbar nach Zahlung) -->
+    <div class="success-msg" id="success-msg">
+      <h3>✦ Vielen Dank! ✦</h3>
+      <p id="success-text">Deine Zahlung war erfolgreich. Viel Spaß mit dem vollständigen Comic!</p>
+    </div>
+
+    <!-- Kaufformular (ausgeblendet nach Zahlung) -->
+    <div id="payment-area">
+      <div class="purchase-eyebrow">VOLLSTÄNDIGER COMIC</div>
+      <h2 class="purchase-title">17 weitere Seiten warten auf dich</h2>
+      <p class="purchase-sub">Erfahre, wie die vier Feen das verlorene Lied des Waldsees wiederfinden</p>
+
+      <div class="price-box">
+        <span class="price-eur">€</span>
+        <span class="price-val">1</span>
+        <span class="price-cent">,99</span>
+      </div>
+
+      <div class="purchase-feats">
+        <span class="feat">Alle 21 Seiten</span>
+        <span class="feat">Sofortiger Zugang</span>
+        <span class="feat">Im Browser lesen</span>
+        <span class="feat">Einmalige Zahlung</span>
+      </div>
+
+      <!-- PayPal Buttons (via SDK) -->
+      <div id="paypal-btn-wrap"></div>
+
+      <!-- Fallback wenn PayPal SDK nicht lädt -->
+      <div class="paypal-fallback" id="paypal-fallback">
+        ⚠ PayPal konnte nicht geladen werden.<br><br>
+        Bitte zahle direkt an:<br>
+        <strong style="color:var(--gold-light)">Claas.altenaehr@outlook.de</strong><br>
+        Betrag: <strong style="color:var(--gold-light)">€ 1,99</strong> · Betreff: <em>Die 4 Feen</em><br><br>
+        Nach deiner Zahlung erhältst du den Zugang per E-Mail an dieselbe Adresse.<br><br>
+        <a href="https://www.paypal.com/paypalme" target="_blank">→ PayPal.me aufrufen</a>
+      </div>
+
+      <p class="payment-note">Sichere Zahlung über PayPal · Keine Registrierung nötig</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── GESPERRTE SEITEN VORSCHAU ────────────────────────── -->
+<div class="section-bg-plain" id="locked-section">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">DIE VOLLSTÄNDIGE GESCHICHTE</div>
+      <h2 class="section-title">Seiten 4–20</h2>
+      <p class="section-sub" id="locked-sub">Nach dem Kauf sofort freigeschaltet ✦</p>
+      <div class="section-rule"></div>
+    </div>
+    <div class="locked-grid" id="locked-grid">
+      <!-- Befüllt per JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- ── VOLLSTÄNDIGER READER (nach Kauf) ────────────────── -->
+<div id="full-reader">
+  <div class="section-bg-cream">
+    <div class="section">
+      <div class="section-head">
+        <div class="section-eyebrow">✦ FREIGESCHALTET ✦</div>
+        <h2 class="section-title">Der vollständige Comic</h2>
+        <p class="section-sub">Alle 21 Seiten · Die vier Feen vom Waldsee</p>
+        <div class="section-rule"></div>
+      </div>
+      <div class="reader" id="full-reader-pages">
+        <!-- Befüllt per JavaScript nach Freischaltung -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ───────────────────────────────────────────── -->
+<footer>
+  <div class="footer-title">✦ Die vier Feen vom Waldsee ✦</div>
+  <div class="footer-sub">Das Lied der Feen</div>
+  <div class="footer-links">
+    <a href="#vorschau">Gratis lesen</a>
+    <a href="#kauf">Kaufen</a>
+    <a href="mailto:claas.altenaehr@freenet.de">Kontakt</a>
+  </div>
+  <p style="font-size:0.75rem; margin-top:6px">
+    Generiert mit Chat GPT &nbsp;·&nbsp; © 2026 Nymisies
+  </p>
+</footer>
+
+<!-- ── JAVASCRIPT ────────────────────────────────────────── -->
+<script>
+// ─── Konfiguration ────────────────────────────────────────
+const TOTAL   = 21;   // Gesamte Seitenanzahl
+const FREE    = 4;    // Kostenlose Seiten (1–4)
+const PRICE   = '1.99';
+const IMG_DIR = 'bilder/die-4-feen/seite-';
+const LS_KEY  = 'feen_purchased_v1';
+
+const PAGE_TITLES = {
+  1:  'Titelbild',
+  2:  'Seite 1 – Der Tropfen auf dem Seerosenblatt',
+  3:  'Seite 2 – Der stille See',
+  4:  'Seite 3 – Der geheime Schilfgang',
+};
+for (let i = 5; i <= TOTAL; i++) {
+  PAGE_TITLES[i] = `Seite ${i - 1}`;
+}
+
+function imgPath(n) { return 'bilder/die-4-feen/seite-' + String(n).padStart(2,'0') + '.jpg'; }(${n}).png`;
+}
+
+// ─── Gesperrte Seiten als Thumbnails rendern ──────────────
+function renderLockedGrid() {
+  const grid = document.getElementById('locked-grid');
+  for (let i = FREE + 1; i <= TOTAL; i++) {
+    const wrap = document.createElement('div');
+    wrap.className = 'thumb-wrap';
+    wrap.id = `thumb-${i}`;
+    wrap.innerHTML = `
+      <img src="${imgPath(i)}" alt="Seite ${i - 1}" loading="lazy">
+      <div class="lock-over">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-lbl">SEITE ${i - 1}</div>
+      </div>`;
+    grid.appendChild(wrap);
+  }
+}
+
+// ─── Comic freischalten ───────────────────────────────────
+function unlockComic(payerName) {
+  // Kaufbereich ausblenden
+  document.getElementById('payment-area').style.display = 'none';
+
+  // Erfolgsmeldung zeigen
+  const msg = document.getElementById('success-msg');
+  if (payerName) {
+    document.getElementById('success-text').textContent =
+      `Hallo ${payerName}! Deine Zahlung war erfolgreich. Viel Spaß mit dem vollständigen Comic!`;
+  }
+  msg.style.display = 'block';
+
+  // Thumbnails entsperren
+  document.getElementById('locked-section').classList.add('unlocked');
+  document.getElementById('locked-sub').textContent = '✦ Freigeschaltet – viel Spaß beim Lesen! ✦';
+
+  // Vollständigen Reader aufbauen und zeigen
+  const reader = document.getElementById('full-reader');
+  const pages  = document.getElementById('full-reader-pages');
+  pages.innerHTML = '';
+  for (let i = 1; i <= TOTAL; i++) {
+    const div = document.createElement('div');
+    div.className = 'page-wrap';
+    div.innerHTML = `
+      <div class="page-label">${PAGE_TITLES[i]}</div>
+      <img src="${imgPath(i)}" alt="${PAGE_TITLES[i]}" loading="lazy">`;
+    pages.appendChild(div);
+  }
+  reader.classList.add('visible');
+  setTimeout(() => reader.scrollIntoView({ behavior: 'smooth' }), 400);
+}
+
+// ─── Demo-Kauf (nur zum Testen) ───────────────────────────
+
+// ─── PayPal-SDK-Fehler ────────────────────────────────────
+function showPaypalFallback() {
+  document.getElementById('paypal-fallback').style.display = 'block';
+}
+
+// ─── PayPal Buttons initialisieren ───────────────────────
+function initPayPal() {
+  if (typeof paypal === 'undefined') return;
+
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color:  'gold',
+      shape:  'rect',
+      label:  'pay',
+      height: 48
+    },
+    createOrder: (data, actions) => actions.order.create({
+      purchase_units: [{
+        description: 'Die vier Feen vom Waldsee – Das Lied der Feen (21 Seiten)',
+        amount: { currency_code: 'EUR', value: PRICE }
+      }]
+    }),
+    onApprove: (data, actions) => actions.order.capture().then(details => {
+      localStorage.setItem(LS_KEY, '1');
+      localStorage.setItem('feen_order_id', details.id);
+      const name = details.payer?.name?.given_name || '';
+      unlockComic(name);
+    }),
+    onError: err => {
+      console.error('PayPal Fehler:', err);
+      alert('Bei der Zahlung ist ein Fehler aufgetreten. Bitte versuche es erneut.');
+    }
+  }).render('#paypal-btn-wrap');
+}
+
+// ─── Start ────────────────────────────────────────────────
+renderLockedGrid();
+
+if (localStorage.getItem(LS_KEY) === '1') {
+  // Bereits gekauft (wiederkehrender Besucher)
+  unlockComic();
+  const h3 = document.querySelector('#success-msg h3');
+  if (h3) h3.textContent = '✦ Willkommen zurück! ✦';
+  document.getElementById('success-text').textContent =
+    'Dein Comic ist noch freigeschaltet. Viel Spaß beim Lesen!';
+}
+
+window.addEventListener('load', initPayPal);
+</script>
+
+</body>
+</html>

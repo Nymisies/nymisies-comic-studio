@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nymisies – Comic-Shop</title>
+
+<!--
+╔══════════════════════════════════════════════════════════════╗
+║  NEUEN COMIC HINZUFÜGEN:                                    ║
+║  Im JavaScript-Block unten das COMICS-Array erweitern.      ║
+║  Alles andere (Karten, Filter, Grid) wird automatisch.      ║
+╚══════════════════════════════════════════════════════════════╝
+-->
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cinzel:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:      #0E0A18;
+  --bg:       #F6F4FC;
+  --bg-card:  #FFFFFF;
+  --text:     #1A1430;
+  --text-mid: #5A4880;
+  --border:   #E0D8F0;
+  --shadow:   rgba(14, 10, 40, 0.1);
+
+  /* Kategorie-Farben */
+  --cat-fantasy:    #7040B0;
+  --cat-maerchen:   #4A7A3A;
+  --cat-kinder:     #C87828;
+  --cat-paed:       #207890;
+  --cat-action:     #C83828;
+  --cat-default:    #504880;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: 'Nunito', 'Segoe UI', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ── HEADER ─────────────────────────────────────────────── */
+header {
+  background: linear-gradient(120deg, #0E0A18 0%, #1A1038 50%, #0C1A10 100%);
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 3px 24px rgba(0,0,0,0.45);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #8040C0, #4070D0);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 1.5px;
+  line-height: 1.2;
+}
+
+.logo-sub {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 3px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.header-tagline {
+  font-style: italic;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.82rem;
+  text-align: center;
+  flex: 1;
+}
+
+.header-count {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* ── HERO BANNER ─────────────────────────────────────────── */
+.banner {
+  background: linear-gradient(135deg, #1A0838 0%, #2A1868 30%, #143028 60%, #0E1828 100%);
+  padding: 56px 40px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(128, 64, 192, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(64, 112, 208, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(64, 160, 96, 0.12) 0%, transparent 40%);
+}
+
+.banner-inner { position: relative; max-width: 700px; margin: 0 auto; }
+
+.banner-eyebrow {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.banner-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+
+.banner-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, #A070E0, #60A0FF, #70D080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.banner-sub {
+  color: rgba(255,255,255,0.65);
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── CATEGORY FILTER ─────────────────────────────────────── */
+.filter-wrap {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 64px;
+  z-index: 100;
+  box-shadow: 0 2px 10px var(--shadow);
+}
+
+.filter-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-inner::-webkit-scrollbar { display: none; }
+
+.filter-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.filter-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-mid);
+  padding: 5px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  letter-spacing: 0.5px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.filter-btn[data-cat="Fantasy"].active        { background: var(--cat-fantasy);  border-color: var(--cat-fantasy); }
+.filter-btn[data-cat="Märchen"].active        { background: var(--cat-maerchen); border-color: var(--cat-maerchen); }
+.filter-btn[data-cat="Kinder"].active         { background: var(--cat-kinder);   border-color: var(--cat-kinder); }
+.filter-btn[data-cat="Pädagogisch"].active    { background: var(--cat-paed);     border-color: var(--cat-paed); }
+
+/* ── MAIN CONTENT ────────────────────────────────────────── */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* ── SECTION GROUP ───────────────────────────────────────── */
+.cat-group {
+  margin-bottom: 56px;
+}
+
+.cat-group-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--border);
+}
+
+.cat-group-icon { font-size: 1.6rem; }
+
+.cat-group-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+.cat-group-count {
+  background: var(--border);
+  color: var(--text-mid);
+  padding: 2px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+
+/* ── COMIC GRID ──────────────────────────────────────────── */
+.comics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* ── COMIC CARD ──────────────────────────────────────────── */
+.comic-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px var(--shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.comic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(14, 10, 40, 0.18);
+}
+
+.card-cover {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.comic-card:hover .card-cover img { transform: scale(1.04); }
+
+.card-new-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #E82040;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-body {
+  padding: 16px 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.tag-fantasy    { background: rgba(112, 64, 176, 0.12); color: var(--cat-fantasy); }
+.tag-maerchen   { background: rgba(74, 122, 58, 0.12);  color: var(--cat-maerchen); }
+.tag-kinder     { background: rgba(200, 120, 40, 0.12); color: var(--cat-kinder); }
+.tag-paed       { background: rgba(32, 120, 144, 0.12); color: var(--cat-paed); }
+.tag-jugend     { background: rgba(30, 154, 214, 0.12); color: #1270A8; }
+.tag-ratgeber   { background: rgba(46, 204, 83, 0.12);  color: #1A8C38; }
+
+.card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.card-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-mid);
+  margin-bottom: 16px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.card-meta {
+  font-size: 0.76rem;
+  color: var(--text-mid);
+}
+
+.card-price {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.12s, box-shadow 0.12s;
+  white-space: nowrap;
+}
+
+.card-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+/* Card accent border (left) + button color per comic */
+.comic-card[data-accent] { border-left: 4px solid var(--card-accent, var(--border)); }
+
+/* ── EMPTY STATE ─────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-mid);
+  display: none;
+}
+
+.empty-state h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+/* ── COMING SOON ─────────────────────────────────────────── */
+.coming-soon-card {
+  background: var(--bg);
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--text-mid);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.coming-soon-card .cs-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.4; }
+.coming-soon-card h4 { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 4px; }
+.coming-soon-card p { font-size: 0.8rem; font-style: italic; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: linear-gradient(120deg, #0E0A18, #0C1A10);
+  padding: 44px 40px;
+  text-align: center;
+  color: rgba(255,255,255,0.4);
+}
+
+.footer-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+
+.footer-links a {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 700px) {
+  header { padding: 0 16px; }
+  .banner { padding: 40px 16px 44px; }
+  .banner-title { font-size: 2rem; }
+  main { padding: 32px 16px 60px; }
+  .filter-inner { padding: 0 16px; }
+  footer { padding: 32px 16px; }
+  .header-tagline { display: none; }
+  .comics-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">📚</div>
+      <div>
+        <div class="logo-text">Nymisies</div>
+        <div class="logo-sub">Comic-Shop</div>
+      </div>
+    </div>
+    <div class="header-tagline">KI-illustrierte Comics für Groß und Klein</div>
+    <div class="header-count" id="header-count">2 Comics</div>
+  </div>
+</header>
+
+<!-- ── BANNER ───────────────────────────────────────────── -->
+<div class="banner">
+  <div class="banner-inner">
+    <div class="banner-eyebrow">✦ Nymisies · Comic-Shop ✦</div>
+    <h1 class="banner-title">Comics, die<br><em>Geschichten erzählen</em></h1>
+    <p class="banner-sub">
+      Märchen, Magie und mutige Heldinnen — KI-illustrierte Comics
+      für Kinder, Familien und alle, die Geschichten lieben.
+      Lies die ersten Seiten gratis, kaufe den Rest für wenige Euro.
+    </p>
+  </div>
+</div>
+
+<!-- ── CATEGORY FILTER ──────────────────────────────────── -->
+<div class="filter-wrap">
+  <div class="filter-inner" id="filter-bar">
+    <span class="filter-label">Filtern:</span>
+    <!-- Buttons werden per JavaScript generiert -->
+  </div>
+</div>
+
+<!-- ── MAIN ─────────────────────────────────────────────── -->
+<main id="main-content">
+  <!-- Karten werden per JavaScript generiert -->
+  <div class="empty-state" id="empty-state">
+    <h3>Keine Comics gefunden</h3>
+    <p>In dieser Kategorie gibt es noch keine Comics. Schau bald wieder vorbei!</p>
+  </div>
+</main>
+
+<!-- ── FOOTER ───────────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">✦ Nymisies ✦</div>
+  <p style="font-style:italic;font-size:0.88rem;margin-bottom:10px">
+    KI-illustrierte Comics für Groß und Klein
+  </p>
+  <div class="footer-links">
+    <a href="mailto:claas.altenaehr@freenet.de">Kontakt</a>
+  </div>
+  <p style="font-size:0.74rem;margin-top:12px">© 2026 Nymisies</p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  PREISFORMEL: floor(Seiten / 10) - 0.01  → nächster X,99-Preis
+//  Beispiele: 21 Seiten → €1,99 | 53 → €4,99 | 40 → €3,99
+//  Hilfsfunktion: calcPrice(pages) unten verfügbar
+// ───────────────────────────────────────────────────────────
+//  COMICS-DATENBANK  ← hier neue Comics eintragen
+//  Felder: id, title, subtitle, desc, cover, pages, free,
+//          price, cats (Array), url, accent (CSS-Farbe),
+//          isNew (true/false), author
+// ═══════════════════════════════════════════════════════════
+const COMICS = [
+  {
+    id:       'die-4-feen',
+    title:    'Die vier Feen vom Waldsee',
+    subtitle: 'Das Lied der Feen',
+    desc:     'Vier Feen entdecken am frühen Morgen, dass ihr Waldsee sein Lied verloren hat. Eine magische Reise durch verborgene Schilfgänge beginnt.',
+    cover:    'bilder/die-4-feen/seite-01.jpg',
+    pages:    21,
+    free:     4,
+    price:    '1,99',
+    cats:     ['Fantasy', 'Märchen'],
+    url:      'die-4-feen.html',
+    accent:   '#7040B0',
+    isNew:    true,
+    author:   'Claas Altenähr',
+    icon:     '🧚',
+  },
+  {
+    id:       'millie-band1',
+    title:    'Millie',
+    subtitle: 'Hexerei für Anfänger · Band 1',
+    desc:     'Millie entdeckt, dass sie zaubern kann! Auf der Pegasusfarm beginnt ein magisches Abenteuer über Freundschaft, Mut und die Kraft, das Gute zu tun.',
+    cover:    'bilder/millie/seite-00.jpg',
+    pages:    53,
+    free:     10,
+    price:    '4,99',
+    cats:     ['Kinder', 'Fantasy', 'Pädagogisch'],
+    url:      'millie.html',
+    accent:   '#C87828',
+    isNew:    true,
+    author:   'Feline und Claas Altenähr',
+    icon:     '🧹',
+  },
+
+  {
+    id:       'tilda',
+    title:    'Tilda und der Zweifelkriecher',
+    subtitle: 'Das Flüstern im Schatten',
+    desc:     'Tildas Garten hat Geheimnisse — und eines Tages schleicht sich der Zweifelkriecher ein. Eine mutige Geschichte über Selbstvertrauen und die Kraft, inneren Zweifeln zu begegnen.',
+    cover:    'bilder/tilda/seite-00.jpg',
+    pages:    46,
+    free:     9,
+    price:    '3,99',
+    cats:     ['Kinder', 'Fantasy', 'Pädagogisch'],
+    url:      'tilda.html',
+    accent:   '#3A7030',
+    isNew:    true,
+    author:   'Nymisies',
+    icon:     '🌿',
+  },
+
+  {
+    id:       'finanzen-ki',
+    title:    'Mit KI als Jugendlicher Geld verdienen',
+    subtitle: 'Ohne Startkapital · 10 echte Wege',
+    desc:     'Ich war 16 und hatte kein Geld — nur Internet und KI-Tools. Dieser Ratgeber zeigt dir 10 sofort umsetzbare Wege, wie du als Teenager mit KI online Geld verdienst.',
+    cover:    'bilder/ki-geld/seite-00.jpg',
+    pages:    11,
+    free:     2,
+    price:    '0,99',
+    cats:     ['Jugend', 'Ratgeber', 'Pädagogisch'],
+    url:      'finanzen-ki.html',
+    accent:   '#2ECC53',
+    isNew:    true,
+    author:   'ChatGPT und Mattis',
+    icon:     '⚡',
+  },
+  {
+    id:       'geld-verdienen',
+    title:    'Geld verdienen & Sparen als Jugendlicher',
+    subtitle: 'Dein Guide für mehr Geld, Freiheit & Zukunft',
+    desc:     '25 konkrete Tipps für Teens ab 13: Geld verdienen, clever sparen und die ersten Schritte in Richtung finanzielle Freiheit machen. Schritt für Schritt, ohne trockene Theorie.',
+    cover:    'bilder/geld-verdienen/seite-00.jpg',
+    pages:    11,
+    free:     2,
+    price:    '0,99',
+    cats:     ['Jugend', 'Ratgeber', 'Pädagogisch'],
+    url:      'geld-verdienen.html',
+    accent:   '#1E9AD6',
+    isNew:    true,
+    author:   'ChatGPT und Mattis',
+    icon:     '💰',
+  },
+
+  // ── Nächster Comic ──────────────────────────────────────
+  // {
+  //   id:       'mein-comic-id',
+  //   title:    'Titel',
+  //   subtitle: 'Untertitel',
+  //   desc:     'Kurze Beschreibung (2–3 Sätze)',
+  //   cover:    'Ordner/Unterordner/cover.jpg',
+  //   pages:    30,
+  //   free:     6,
+  //   price:    '1,99',
+  //   cats:     ['Fantasy'],    // Kategorien (s.u.)
+  //   url:      'meincomic.html',
+  //   accent:   '#207890',
+  //   isNew:    true,
+  //   author:   'Name',
+  //   icon:     '📖',
+  // },
+];
+
+// ═══════════════════════════════════════════════════════════
+//  KATEGORIEN-DEFINITIONEN  ← bei Bedarf erweitern
+// ═══════════════════════════════════════════════════════════
+const CATEGORIES = {
+  'Fantasy':      { label: 'Fantasy ✨',      icon: '✨', color: '#7040B0', tagClass: 'tag-fantasy'  },
+  'Märchen':      { label: 'Märchen 🌿',      icon: '🌿', color: '#4A7A3A', tagClass: 'tag-maerchen' },
+  'Kinder':       { label: 'Kinder & Familie 🌟', icon: '🌟', color: '#C87828', tagClass: 'tag-kinder'  },
+  'Pädagogisch':  { label: 'Pädagogisch 💡',  icon: '💡', color: '#207890', tagClass: 'tag-paed'    },
+  'Jugend':       { label: 'Jugend & Teens 🎒', icon: '🎒', color: '#1E9AD6', tagClass: 'tag-jugend'  },
+  'Ratgeber':     { label: 'Ratgeber 📈',      icon: '📈', color: '#2ECC53', tagClass: 'tag-ratgeber'},
+};
+
+// Kategorie-Gruppen: Reihenfolge und Anzeigenamen auf der Seite
+const CAT_GROUPS = [
+  { id: 'Fantasy',     label: 'Fantasy',          icon: '✨' },
+  { id: 'Märchen',     label: 'Märchen',           icon: '🌿' },
+  { id: 'Kinder',      label: 'Kinder & Familie',  icon: '🌟' },
+  { id: 'Pädagogisch', label: 'Pädagogisch',       icon: '💡' },
+  { id: 'Jugend',      label: 'Jugend & Teens',    icon: '🎒' },
+  { id: 'Ratgeber',    label: 'Ratgeber',           icon: '📈' },
+];
+
+// ─── State ────────────────────────────────────────────────
+let activeFilter = 'Alle';
+
+// ─── Alle verwendeten Kategorien ermitteln ────────────────
+function getUsedCategories() {
+  const used = new Set();
+  COMICS.forEach(c => c.cats.forEach(cat => used.add(cat)));
+  return [...used];
+}
+
+// ─── Filter-Leiste aufbauen ───────────────────────────────
+function buildFilterBar() {
+  const bar = document.getElementById('filter-bar');
+  const allCats = ['Alle', ...getUsedCategories()];
+
+  allCats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (cat === 'Alle' ? ' active' : '');
+    btn.dataset.cat = cat;
+    btn.textContent = cat === 'Alle' ? 'Alle Comics' : (CATEGORIES[cat]?.label || cat);
+    btn.onclick = () => {
+      activeFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderComics();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+// ─── Tag-HTML ─────────────────────────────────────────────
+function tagHTML(cat) {
+  const def = CATEGORIES[cat];
+  const cls = def ? def.tagClass : '';
+  return `<span class="tag ${cls}">${cat}</span>`;
+}
+
+// ─── Karte bauen ─────────────────────────────────────────
+function buildCard(comic) {
+  const a = document.createElement('a');
+  a.href = comic.url;
+  a.className = 'comic-card';
+  a.dataset.accent = comic.accent;
+  a.style.setProperty('--card-accent', comic.accent);
+
+  const btnBg    = comic.accent;
+  const btnStyle = `background:${btnBg};color:white;`;
+
+  a.innerHTML = `
+    <div class="card-cover">
+      <img src="${comic.cover}" alt="${comic.title}" loading="lazy">
+      ${comic.isNew ? '<span class="card-new-badge">Neu</span>' : ''}
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        ${comic.cats.map(tagHTML).join('')}
+      </div>
+      <div class="card-title">${comic.icon} ${comic.title}</div>
+      <div class="card-subtitle">${comic.subtitle}</div>
+      <p class="card-desc">${comic.desc}</p>
+      <div class="card-footer">
+        <div>
+          <div class="card-price">€ ${comic.price}</div>
+          <div class="card-meta">${comic.pages} Seiten · ${comic.free} gratis</div>
+        </div>
+        <button class="card-btn" style="${btnStyle}">
+          Lesen →
+        </button>
+      </div>
+    </div>`;
+
+  return a;
+}
+
+// ─── Comics rendern ───────────────────────────────────────
+function renderComics() {
+  const main = document.getElementById('main-content');
+  // Alle bestehenden Gruppen entfernen (nicht die Empty-State-Div)
+  main.querySelectorAll('.cat-group').forEach(el => el.remove());
+
+  const filtered = activeFilter === 'Alle'
+    ? COMICS
+    : COMICS.filter(c => c.cats.includes(activeFilter));
+
+  if (filtered.length === 0) {
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+  document.getElementById('empty-state').style.display = 'none';
+
+  if (activeFilter === 'Alle') {
+    // Alphabetisch sortiert, jedes Comic nur einmal
+    const sorted = [...COMICS].sort((a, b) => a.title.localeCompare(b.title, 'de'));
+
+    const section = document.createElement('section');
+    section.className = 'cat-group';
+    section.innerHTML = `
+      <div class="cat-group-header">
+        <span class="cat-group-icon">📚</span>
+        <span class="cat-group-title">Alle Comics</span>
+        <span class="cat-group-count">${sorted.length}</span>
+      </div>
+      <div class="comics-grid" id="grid-alle"></div>`;
+
+    const grid = section.querySelector('#grid-alle');
+    sorted.forEach(c => grid.appendChild(buildCard(c)));
+    main.insertBefore(section, document.getElementById('empty-state'));
+
+  } else {
+    // Flache Liste (gefiltert)
+    const section = document.createElement('section');
+    section.className = 'cat-group';
+    section.innerHTML = `
+      <div class="cat-group-header">
+        <span class="cat-group-icon">${CATEGORIES[activeFilter]?.icon || '📖'}</span>
+        <span class="cat-group-title">${CATEGORIES[activeFilter]?.label || activeFilter}</span>
+        <span class="cat-group-count">${filtered.length}</span>
+      </div>
+      <div class="comics-grid" id="grid-filtered"></div>`;
+    const grid = section.querySelector('#grid-filtered');
+    filtered.forEach(c => grid.appendChild(buildCard(c)));
+    main.insertBefore(section, document.getElementById('empty-state'));
+  }
+}
+
+// ─── Header-Zähler aktualisieren ─────────────────────────
+function updateCount() {
+  document.getElementById('header-count').textContent =
+    `${COMICS.length} Comic${COMICS.length !== 1 ? 's' : ''}`;
+}
+
+// ─── Preisformel ──────────────────────────────────────────
+// Automatisch berechnen: calcPrice(21) → "1,99"
+function calcPrice(pages) {
+  const raw = Math.max(0.99, Math.floor(pages / 10) - 0.01);
+  return raw.toFixed(2).replace('.', ',');
+}
+// Beispiel-Aufruf in der Konsole: calcPrice(53) → "4,99"
+
+// ─── Start ────────────────────────────────────────────────
+buildFilterBar();
+updateCount();
+renderComics();
+</script>
+
+</body>
+</html>

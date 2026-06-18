@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wie ich mit KI als Jugendlicher Geld verdient habe</title>
+<!--
+  Seiten: 11 · Vorschau: 2 (floor(11/5)) · Preis: €0,99 (floor(11/10)-0.01)
+  PayPal Client ID eingetragen ✓
+-->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Exo+2:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0A0E14;
+  --bg-card:     #111820;
+  --bg-section:  #0E1520;
+  --green:       #2ECC53;
+  --green-dark:  #1A8C38;
+  --green-pale:  #0D2A16;
+  --yellow:      #F0D020;
+  --yellow-dark: #C8A010;
+  --blue:        #1A6AC8;
+  --blue-light:  #4A9AE8;
+  --white:       #FFFFFF;
+  --text-light:  rgba(255,255,255,0.82);
+  --text-mid:    rgba(255,255,255,0.5);
+  --border:      rgba(46,204,83,0.25);
+  --shadow:      rgba(46,204,83,0.15);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: 'Exo 2', 'Segoe UI', sans-serif;
+  color: var(--white);
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ── HEADER ─────────────────────────────────────────────── */
+header {
+  background: linear-gradient(90deg, #060A0E 0%, #0E1820 50%, #060E06 100%);
+  border-bottom: 2px solid var(--green-dark);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 0 30px rgba(46,204,83,0.15);
+}
+
+.header-brand {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-shadow: 0 0 12px rgba(46,204,83,0.5);
+}
+
+.header-brand small {
+  display: block;
+  font-size: 0.58rem;
+  color: var(--text-mid);
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.header-right { display: flex; align-items: center; gap: 12px; }
+
+.header-back {
+  color: var(--text-mid);
+  font-size: 0.76rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 5px 12px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+.header-back:hover { color: var(--green); border-color: var(--green); }
+
+.header-price {
+  background: rgba(46,204,83,0.12);
+  border: 1px solid var(--green-dark);
+  color: var(--green);
+  padding: 6px 16px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.hero-wrap {
+  background:
+    radial-gradient(ellipse at 10% 50%, rgba(46,204,83,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 30%, rgba(26,106,200,0.15) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(240,208,32,0.08) 0%, transparent 40%),
+    linear-gradient(160deg, #060A0E 0%, #0A1218 50%, #080E06 100%);
+  padding: 60px 40px 70px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 5px;
+  color: var(--green);
+  margin-bottom: 16px;
+  text-shadow: 0 0 8px rgba(46,204,83,0.5);
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  text-shadow: 0 0 30px rgba(46,204,83,0.2);
+}
+
+.hero-title .highlight { color: var(--green); }
+.hero-title .accent    { color: var(--yellow); }
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: var(--text-mid);
+  letter-spacing: 1.5px;
+  margin-bottom: 22px;
+  font-style: italic;
+}
+
+.hero-desc {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 28px;
+  max-width: 500px;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.chip {
+  background: rgba(46,204,83,0.08);
+  border: 1px solid var(--border);
+  color: rgba(255,255,255,0.65);
+  padding: 4px 14px;
+  font-size: 0.72rem;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.hero-cover {
+  position: relative;
+  filter: drop-shadow(0 0 40px rgba(46,204,83,0.2));
+}
+
+.hero-cover img {
+  width: 100%;
+  border-radius: 4px;
+  outline: 2px solid rgba(46,204,83,0.3);
+  outline-offset: 4px;
+}
+
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+.sparkle:nth-child(1) { top: -12px; right: -8px;  font-size: 1.4rem; animation-delay: 0s; }
+.sparkle:nth-child(2) { top: 35%;  left: -14px; font-size: 1rem;   animation-delay: 0.9s; }
+.sparkle:nth-child(3) { bottom: 12%; right: -12px; font-size: 1.2rem; animation-delay: 1.8s; }
+
+@keyframes pulse {
+  0%,100% { opacity: 0.2; transform: scale(0.8); }
+  50%      { opacity: 1;   transform: scale(1.2); }
+}
+
+/* ── BUTTON ──────────────────────────────────────────────── */
+.btn-neon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--green);
+  color: #050A06;
+  border: none;
+  padding: 13px 28px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(46,204,83,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-neon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 32px rgba(46,204,83,0.6);
+}
+
+/* ── ABOUT BAND ──────────────────────────────────────────── */
+.about-band {
+  background: linear-gradient(100deg, #0A1A0C 0%, #0A1018 50%, #080E06 100%);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 40px;
+}
+
+.about-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 44px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.about-text { flex: 1; min-width: 260px; }
+
+.about-text h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px rgba(46,204,83,0.3);
+}
+
+.about-text p {
+  font-size: 0.98rem;
+  line-height: 1.78;
+  color: var(--text-light);
+}
+
+.about-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.stat {
+  background: rgba(46,204,83,0.06);
+  border: 1px solid var(--border);
+  padding: 16px 20px;
+  text-align: center;
+  min-width: 88px;
+  border-radius: 6px;
+}
+
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(46,204,83,0.4);
+}
+
+.stat-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--text-mid);
+  margin-top: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stat-yellow .stat-num { color: var(--yellow); text-shadow: 0 0 10px rgba(240,208,32,0.4); }
+.stat-yellow { border-color: rgba(240,208,32,0.25); background: rgba(240,208,32,0.05); }
+
+/* ── SECTIONS ────────────────────────────────────────────── */
+.section { max-width: 1100px; margin: 0 auto; padding: 58px 40px; }
+.section-dark { background: var(--bg-section); }
+.section-darker { background: var(--bg); }
+
+.section-head { text-align: center; margin-bottom: 44px; }
+
+.section-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 5px;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.section-sub {
+  font-style: italic;
+  color: var(--text-mid);
+  font-size: 0.92rem;
+}
+
+.section-rule {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  margin: 12px auto 0;
+  box-shadow: 0 0 8px rgba(46,204,83,0.4);
+}
+
+/* ── READER ──────────────────────────────────────────────── */
+.reader { display: flex; flex-direction: column; align-items: center; }
+.page-wrap { width: 100%; max-width: 640px; }
+
+.page-label {
+  background: linear-gradient(90deg, #0D2A16, #08101C);
+  border-bottom: 1px solid var(--border);
+  color: var(--green);
+  padding: 7px 18px;
+  font-size: 0.66rem;
+  letter-spacing: 3px;
+  text-align: center;
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+}
+
+.page-wrap img {
+  width: 100%;
+  display: block;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* ── PURCHASE ────────────────────────────────────────────── */
+.purchase-wrap {
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(46,204,83,0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 50%, rgba(26,106,200,0.12) 0%, transparent 45%),
+    linear-gradient(160deg, #060A0E, #0A1210, #060A0E);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.purchase-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.purchase-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 5px;
+  color: var(--green);
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px rgba(46,204,83,0.5);
+}
+
+.purchase-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.purchase-sub {
+  font-style: italic;
+  color: var(--text-mid);
+  margin-bottom: 36px;
+  font-size: 0.95rem;
+}
+
+.price-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  background: rgba(46,204,83,0.08);
+  border: 2px solid var(--green-dark);
+  padding: 16px 32px;
+  margin-bottom: 30px;
+  border-radius: 6px;
+  box-shadow: 0 0 24px rgba(46,204,83,0.15);
+}
+
+.price-eur  { font-family: 'Orbitron', monospace; font-size: 1.6rem; color: var(--green); }
+.price-val  { font-family: 'Orbitron', monospace; font-size: 4rem; color: var(--white); line-height: 1; font-weight: 900; }
+.price-cent { font-family: 'Orbitron', monospace; font-size: 2rem; color: var(--green); }
+
+.purchase-feats {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 38px;
+}
+
+.feat {
+  color: var(--text-light);
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feat::before { content: '⚡'; font-size: 0.75rem; }
+
+#paypal-btn-wrap { max-width: 420px; margin: 0 auto 14px; }
+
+.payment-note {
+  color: var(--text-mid);
+  font-size: 0.72rem;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.paypal-fallback {
+  display: none;
+  background: rgba(240,208,32,0.06);
+  border: 1px solid rgba(240,208,32,0.3);
+  padding: 18px 24px;
+  color: rgba(240,208,32,0.85);
+  font-size: 0.84rem;
+  line-height: 1.7;
+  max-width: 460px;
+  margin: 0 auto 14px;
+  border-radius: 6px;
+  text-align: center;
+}
+.paypal-fallback a { color: var(--yellow); text-decoration: underline; }
+
+.success-msg {
+  display: none;
+  background: rgba(46,204,83,0.08);
+  border: 2px solid var(--green-dark);
+  padding: 24px 36px;
+  max-width: 500px;
+  margin: 0 auto 32px;
+  border-radius: 8px;
+  box-shadow: 0 0 24px rgba(46,204,83,0.12);
+}
+
+.success-msg h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  color: var(--green);
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(46,204,83,0.4);
+}
+
+.success-msg p { color: var(--text-light); font-style: italic; }
+
+
+
+/* ── LOCKED GRID ─────────────────────────────────────────── */
+.locked-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.thumb-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(46,204,83,0.1);
+}
+
+.thumb-wrap img {
+  width: 100%;
+  display: block;
+  filter: blur(9px) brightness(0.4) saturate(0.3);
+  transform: scale(1.08);
+  transition: filter 0.5s, transform 0.5s;
+}
+
+.lock-over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,10,14,0.4);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.lock-over .lock-icon { font-size: 1.6rem; line-height: 1; margin-bottom: 4px; }
+.lock-over .lock-lbl {
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: var(--green);
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.unlocked .thumb-wrap img { filter: none; transform: scale(1); }
+.unlocked .lock-over      { opacity: 0; }
+
+#full-reader         { display: none; }
+#full-reader.visible { display: block; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: #050810;
+  border-top: 1px solid var(--border);
+  padding: 40px;
+  text-align: center;
+  color: var(--text-mid);
+}
+
+.footer-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(46,204,83,0.3);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+
+.footer-links a {
+  color: var(--text-mid);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--green); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 36px; }
+  .hero-cover { max-width: 340px; margin: 0 auto; order: -1; }
+  .hero-title { font-size: 1.8rem; }
+}
+
+@media (max-width: 580px) {
+  header { padding: 12px 16px; }
+  .hero-wrap { padding: 36px 16px 50px; }
+  .section { padding: 40px 16px; }
+  .about-band { padding: 30px 16px; }
+  .purchase-inner { padding: 40px 16px; }
+  footer { padding: 30px 16px; }
+  .header-back { display: none; }
+}
+</style>
+</head>
+<body>
+
+<script
+  src="https://www.paypal.com/sdk/js?client-id=AQY4Yxtu3WR6LbP6vXW47DSgPUog_i4MJZK5vnn6E2cvG0ewdvWN_XthEqvUi_6MEHIcKpyUHxZr3Avv&currency=EUR&intent=capture"
+  onerror="showPaypalFallback()">
+</script>
+
+<header>
+  <div class="header-brand">
+    ⚡ KI · GELD · JUGEND
+    <small>Praktischer Ratgeber</small>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="header-back">← Alle Bücher</a>
+    <div class="header-price">E-Book · € 0,99</div>
+  </div>
+</header>
+
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">⚡ RATGEBER FÜR TEENS 14–18 ⚡</div>
+      <h1 class="hero-title">
+        Wie ich mit <span class="highlight">KI</span><br>
+        als <span class="accent">Jugendlicher</span><br>
+        Geld verdient habe
+      </h1>
+      <div class="hero-subtitle">Ohne Startkapital · 10 echte Wege</div>
+      <p class="hero-desc">
+        Ich war 16, hatte kein Geld, aber Internet und kostenlose KI-Tools —
+        und verdiente meinen ersten 100€-Monat. Dieses Buch zeigt dir echte,
+        sofort umsetzbare Wege, wie du als Teenager mit KI online Geld verdienst.
+        Schritt-für-Schritt. Ohne Vorkenntnisse.
+      </p>
+      <div class="hero-chips">
+        <span class="chip">11 Seiten</span>
+        <span class="chip">Ab 14 Jahren</span>
+        <span class="chip">KI & Finanzen</span>
+        <span class="chip">Sofort umsetzbar</span>
+        <span class="chip">Kein Startkapital</span>
+      </div>
+      <a href="#vorschau" class="btn-neon">📖 Kostenlos reinlesen</a>
+    </div>
+    <div class="hero-cover">
+      <span class="sparkle">⚡</span>
+      <span class="sparkle">💚</span>
+      <span class="sparkle">⚡</span>
+      <img src="bilder/ki-geld/seite-00.jpg" alt="Wie ich mit KI Geld verdient habe – Cover">
+    </div>
+  </div>
+</div>
+
+<div class="about-band">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2>💡 Reale Methoden. Echte Ergebnisse.</h2>
+      <p>
+        Kein theoretisches Blabla — dieser Ratgeber zeigt dir 10 konkrete Wege,
+        wie du mit KI-Tools Geld verdienen kannst: Content erstellen, KI-Prompts
+        verkaufen, Dienstleistungen anbieten und mehr. Alles legal, ehrlich und
+        auch ohne Bankkonto umsetzbar. Erstellt von Mattis mit ChatGPT.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">11</div>
+        <div class="stat-lbl">Seiten</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-lbl">Gratis</div>
+      </div>
+      <div class="stat stat-yellow">
+        <div class="stat-num" style="color:var(--yellow)">0,99</div>
+        <div class="stat-lbl">Euro</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-dark" id="vorschau">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">KOSTENLOSE LESEPROBE</div>
+      <h2 class="section-title">Die ersten 2 Seiten – gratis</h2>
+      <p class="section-sub">Cover und Vorwort: Meine Geschichte</p>
+      <div class="section-rule"></div>
+    </div>
+    <div class="reader" id="preview-reader"></div>
+  </div>
+</div>
+
+<div class="purchase-wrap" id="kauf">
+  <div class="purchase-inner">
+    <div class="success-msg" id="success-msg">
+      <h3>⚡ Zugang freigeschaltet!</h3>
+      <p id="success-text">Deine Zahlung war erfolgreich. Viel Erfolg mit deinem KI-Business!</p>
+    </div>
+    <div id="payment-area">
+      <div class="purchase-eyebrow">⚡ VOLLSTÄNDIGER RATGEBER ⚡</div>
+      <h2 class="purchase-title">9 weitere Kapitel freischalten</h2>
+      <p class="purchase-sub">10 echte Wege, sofort umsetzbare Tipps und dein persönlicher Fahrplan</p>
+      <div class="price-box">
+        <span class="price-eur">€</span>
+        <span class="price-val">0</span>
+        <span class="price-cent">,99</span>
+      </div>
+      <div class="purchase-feats">
+        <span class="feat">Alle 11 Seiten</span>
+        <span class="feat">Sofortiger Zugang</span>
+        <span class="feat">Im Browser lesen</span>
+        <span class="feat">Einmalige Zahlung</span>
+      </div>
+      <div id="paypal-btn-wrap"></div>
+      <div class="paypal-fallback" id="paypal-fallback">
+        ⚠ PayPal nicht geladen.<br><br>
+        Zahle direkt an: <strong style="color:var(--yellow)">Claas.altenaehr@outlook.de</strong><br>
+        Betrag: <strong style="color:var(--yellow)">€ 0,99</strong> · Betreff: <em>KI Geld Ratgeber</em>
+      </div>
+      <p class="payment-note">Sichere Zahlung über PayPal · Keine Registrierung nötig</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-darker" id="locked-section">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">VOLLSTÄNDIGER INHALT</div>
+      <h2 class="section-title">Kapitel 3–11</h2>
+      <p class="section-sub" id="locked-sub">Nach dem Kauf sofort freigeschaltet ⚡</p>
+      <div class="section-rule"></div>
+    </div>
+    <div class="locked-grid" id="locked-grid"></div>
+  </div>
+</div>
+
+<div id="full-reader">
+  <div class="section-dark">
+    <div class="section">
+      <div class="section-head">
+        <div class="section-eyebrow">⚡ FREIGESCHALTET ⚡</div>
+        <h2 class="section-title">Wie ich mit KI Geld verdient habe — alle 11 Seiten</h2>
+        <div class="section-rule"></div>
+      </div>
+      <div class="reader" id="full-reader-pages"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-title">⚡ KI · GELD · JUGEND</div>
+  <p style="font-style:italic;font-size:0.84rem;margin-bottom:10px">Erstellt von ChatGPT und Mattis</p>
+  <div class="footer-links">
+    <a href="#vorschau">Gratis lesen</a>
+    <a href="#kauf">Kaufen</a>
+    <a href="index.html">Alle Bücher</a>
+    <a href="mailto:claas.altenaehr@freenet.de">Kontakt</a>
+  </div>
+  <p style="font-size:0.72rem;margin-top:12px">© 2026 Nymisies</p>
+</footer>
+
+<script>
+const TOTAL   = 11;
+const FREE    = 2;
+const PRICE   = '0.99';
+const LS_KEY  = 'finanzen_ki_v1';
+const IMG_DIR = 'bilder/ki-geld/';
+const IMAGES  = Array.from({length: TOTAL}, (_, i) => `seite-${String(i).padStart(2,'0')}.jpg`);
+
+const LABELS = {0:'Cover', 1:'Vorwort – Meine Geschichte'};
+function pageLabel(i) { return LABELS[i] || `Kapitel ${i + 1}`; }
+function imgSrc(i)    { return IMG_DIR + IMAGES[i]; }
+
+function renderPreview() {
+  const el = document.getElementById('preview-reader');
+  for (let i = 0; i < FREE; i++) {
+    const div = document.createElement('div');
+    div.className = 'page-wrap';
+    div.innerHTML = `<div class="page-label">${pageLabel(i)}</div>
+      <img src="${imgSrc(i)}" alt="${pageLabel(i)}" loading="lazy">`;
+    el.appendChild(div);
+  }
+}
+
+function renderLockedGrid() {
+  const grid = document.getElementById('locked-grid');
+  for (let i = FREE; i < TOTAL; i++) {
+    const div = document.createElement('div');
+    div.className = 'thumb-wrap';
+    div.innerHTML = `<img src="${imgSrc(i)}" alt="${pageLabel(i)}" loading="lazy">
+      <div class="lock-over">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-lbl">${pageLabel(i)}</div>
+      </div>`;
+    grid.appendChild(div);
+  }
+}
+
+function unlockComic(name) {
+  document.getElementById('payment-area').style.display = 'none';
+  const msg = document.getElementById('success-msg');
+  if (name) document.getElementById('success-text').textContent =
+    `Hallo ${name}! Zugang freigeschaltet. Viel Erfolg mit deinem KI-Business!`;
+  msg.style.display = 'block';
+  document.getElementById('locked-section').classList.add('unlocked');
+  document.getElementById('locked-sub').textContent = '⚡ Freigeschaltet – viel Erfolg!';
+  const reader = document.getElementById('full-reader');
+  const pages  = document.getElementById('full-reader-pages');
+  pages.innerHTML = '';
+  for (let i = 0; i < TOTAL; i++) {
+    const div = document.createElement('div');
+    div.className = 'page-wrap';
+    div.innerHTML = `<div class="page-label">${pageLabel(i)}</div>
+      <img src="${imgSrc(i)}" alt="${pageLabel(i)}" loading="lazy">`;
+    pages.appendChild(div);
+  }
+  reader.classList.add('visible');
+  setTimeout(() => reader.scrollIntoView({behavior:'smooth'}), 400);
+}
+
+function showPaypalFallback() { document.getElementById('paypal-fallback').style.display='block'; }
+
+function initPayPal() {
+  if (typeof paypal === 'undefined') return;
+  paypal.Buttons({
+    style: {layout:'vertical', color:'black', shape:'rect', label:'pay', height:48},
+    createOrder: (d,a) => a.order.create({purchase_units:[{
+      description:'Wie ich mit KI als Jugendlicher Geld verdient habe (11 Seiten)',
+      amount:{currency_code:'EUR', value:PRICE}
+    }]}),
+    onApprove: (d,a) => a.order.capture().then(det => {
+      localStorage.setItem(LS_KEY,'1');
+      unlockComic(det.payer?.name?.given_name||'');
+    }),
+    onError: e => { console.error(e); alert('Zahlung fehlgeschlagen. Bitte erneut versuchen.'); }
+  }).render('#paypal-btn-wrap');
+}
+
+renderPreview();
+renderLockedGrid();
+if (localStorage.getItem(LS_KEY)==='1') {
+  unlockComic();
+  document.querySelector('#success-msg h3').textContent = '⚡ Willkommen zurück!';
+  document.getElementById('success-text').textContent = 'Dein Ratgeber ist freigeschaltet.';
+}
+window.addEventListener('load', initPayPal);
+</script>
+</body>
+</html>
