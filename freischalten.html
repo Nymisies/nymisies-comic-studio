@@ -186,7 +186,7 @@ function unlock() {
   const key = TRANSACTIONS[txId];
 
   if (key) {
-    localStorage.setItem(key, 'true');
+    localStorage.setItem(key, '1');
     const name = COMIC_NAMES[key] || 'dein Comic';
     const url  = COMIC_URLS[key]  || 'index.html';
     showMsg(`✓ "${name}" wurde freigeschaltet! Du wirst weitergeleitet…`, 'success');
