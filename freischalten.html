@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comic freischalten – Nymisies</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #1A0838 0%, #2A1868 40%, #0C1A10 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 36px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+.logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #7040B0;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.logo-sub {
+  font-size: 0.75rem;
+  color: #888;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  color: #1A1430;
+  margin-bottom: 10px;
+}
+.desc {
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #444;
+  text-align: left;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #E0D8F0;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  color: #1A1430;
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color 0.15s;
+}
+input[type="text"]:focus { border-color: #7040B0; }
+.hint {
+  font-size: 0.76rem;
+  color: #999;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.btn {
+  width: 100%;
+  padding: 13px;
+  background: #7040B0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: 0.5px;
+}
+.btn:hover { background: #5A30A0; }
+.msg {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: none;
+}
+.msg.success { background: #E8F8EE; color: #1A6A30; border: 1px solid #B0E0C0; }
+.msg.error   { background: #FEE8E8; color: #9A1A1A; border: 1px solid #F0B0B0; }
+.back {
+  display: inline-block;
+  margin-top: 18px;
+  color: #7040B0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.back:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">✦ Nymisies ✦</div>
+  <div class="logo-sub">Comic-Shop</div>
+  <h1>Comic freischalten</h1>
+  <p class="desc">
+    Du hast bereits ein Comic gekauft, aber keinen Zugriff mehr?<br>
+    Gib deine PayPal-Transaktions-ID ein — du findest sie in der Bestätigungs-E-Mail von PayPal.
+  </p>
+
+  <label for="tx-input">PayPal-Transaktions-ID</label>
+  <input type="text" id="tx-input" placeholder="z.B. 5XJ72839KL2847362">
+  <div class="hint">Die ID steht in deiner PayPal-Bestätigungs-E-Mail unter „Transaktionsnummer".</div>
+
+  <button class="btn" onclick="unlock()">Comic freischalten →</button>
+  <div class="msg" id="msg"></div>
+  <a class="back" href="index.html">← Zurück zum Shop</a>
+</div>
+
+<script>
+// Bekannte Transaktions-IDs → welches Comic freischalten
+// Claas: hier neue Transaktions-IDs eintragen nach jedem Kauf
+// Format: 'PAYPAL-TX-ID': 'localStorage-Key'
+const TRANSACTIONS = {
+  // Beispiel (durch echte IDs ersetzen):
+  // 'ABC123XYZ': 'millie_band1_purchased_v1',
+};
+
+// Alle bekannten localStorage-Keys (zum Prüfen ob schon freigeschaltet)
+const ALL_KEYS = [
+  'millie_band1_purchased_v1',
+  'feen_purchased_v1',
+  'tilda_zweifelkriecher_v1',
+  'finanzen_ki_v1',
+  'geld_verdienen_v1',
+];
+
+const COMIC_NAMES = {
+  'millie_band1_purchased_v1':   'Millie – Hexerei für Anfänger',
+  'feen_purchased_v1':           'Die vier Feen vom Waldsee',
+  'tilda_zweifelkriecher_v1':    'Tilda und der Zweifelkriecher',
+  'finanzen_ki_v1':              'Mit KI als Jugendlicher Geld verdienen',
+  'geld_verdienen_v1':           'Geld verdienen & Sparen als Jugendlicher',
+};
+
+const COMIC_URLS = {
+  'millie_band1_purchased_v1':   'millie.html',
+  'feen_purchased_v1':           'die-4-feen.html',
+  'tilda_zweifelkriecher_v1':    'tilda.html',
+  'finanzen_ki_v1':              'finanzen-ki.html',
+  'geld_verdienen_v1':           'geld-verdienen.html',
+};
+
+function showMsg(text, type) {
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.className = 'msg ' + type;
+  el.style.display = 'block';
+}
+
+function unlock() {
+  const txId = document.getElementById('tx-input').value.trim().toUpperCase();
+
+  if (!txId) {
+    showMsg('Bitte gib deine Transaktions-ID ein.', 'error');
+    return;
+  }
+
+  const key = TRANSACTIONS[txId];
+
+  if (key) {
+    localStorage.setItem(key, 'true');
+    const name = COMIC_NAMES[key] || 'dein Comic';
+    const url  = COMIC_URLS[key]  || 'index.html';
+    showMsg(`✓ "${name}" wurde freigeschaltet! Du wirst weitergeleitet…`, 'success');
+    setTimeout(() => window.location.href = url, 2000);
+  } else {
+    showMsg('Diese Transaktions-ID wurde nicht gefunden. Bitte wende dich an: claas.altenaehr@freenet.de', 'error');
+  }
+}
+
+// Enter-Taste funktioniert auch
+document.getElementById('tx-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') unlock();
+});
+</script>
+</body>
+</html>
